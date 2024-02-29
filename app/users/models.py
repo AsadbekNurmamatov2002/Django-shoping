@@ -57,7 +57,8 @@ class User(AbstractBaseUser):
 	is_student = models.BooleanField(default=False)
 	is_teacher = models.BooleanField(default=False)
 	is_principal = models.BooleanField(default=False)
-
+	created=models.DateTimeField(auto_now_add=True)
+	updated=models.DateTimeField(auto_now=True)
 	objects = UserManager()
 
 	USERNAME_FIELD = "email"
@@ -70,3 +71,10 @@ class User(AbstractBaseUser):
 
 	def has_module_perms(self, app_label):
 		return True
+
+
+class Profile(models.Model):
+    user = models.OneToOneField(User,on_delete=models.CASCADE)
+    date_of_birth = models.DateField(blank=True, null=True)
+    photo = models.ImageField(upload_to='users/%Y/%m/%d/',blank=True)
+	
