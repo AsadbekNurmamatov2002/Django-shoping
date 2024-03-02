@@ -8,7 +8,7 @@ urlpatterns = [
     path('sigin/',LoginPage, name="sigin"),
     path('signup/', RegisterPage, name="signup"),
     path("signout/",LogoutPage, name="signout"),
-    path('profile/<str:id>', profile, name='profile'),
+    path('profile/', profile, name='profile'),
     path('edit/',edit, name='edit'),
 
     path('activate/<uidb64>/<token>/', activate, name='activate'),

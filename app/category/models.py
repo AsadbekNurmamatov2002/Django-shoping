@@ -4,15 +4,15 @@ from django.utils.text import slugify
 # Create your models here.
 class Category(models.Model):
     name = models.CharField(max_length=200)
-    slug = models.SlugField(max_length=200, unique=True)
-    image=models.ImageField(upload_to='category/%Y/%M/%D/')
+    slug = models.SlugField(max_length=250, blank=True)
+    image=models.ImageField(upload_to='category/')
     class Meta:
-        ordering = ['name']
+        ordering = ['-name']
         indexes = [
-            models.Index(fields=['name']),
+            models.Index(fields=['-name']),
         ]
-        verbose_name = 'category'
-        verbose_name_plural = 'categories'
+        # verbose_name = 'category'
+        # verbose_name_plural = 'categories'
     def __str__(self):
        return self.name
     def save(self, *args, **kwargs):
@@ -27,4 +27,4 @@ class Category(models.Model):
             self.slug=slug
         super().save(*args, **kwargs)
     def get_absolute_url(self):
-        return reverse('shop:product_list_by_category',args=[self.slug])
+        return reverse('product:product_list_by_category',args=[self.slug])

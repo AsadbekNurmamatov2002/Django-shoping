@@ -6,8 +6,23 @@ from category.models import Category
 # Create your models here.
 
 
-class ProductType(models.Model):
-    name=models.CharField(max_length=250, help_text="product turini belgilang masalan--> Bugungi maxsulot yoke eng yahshi maxsulot!!")
+class ProductQuerySet(models.QuerySet):
+    def ENGYAHSHICHEGIRMA(self):
+        return self.filter(tur=Product.Tur.ENGYAHSHICHEGIRMA)
+    def YANGIMAHSULOTLAR(self):
+        return self.filter(tur=Product.Tur.YANGIMAHSULOTLAR)
+    def KUNNINGMAHSULOTI(self):
+        return self.filter(tur=Product.Tur.KUNNINGMAHSULOTI)
+    
+class ProductManager(models.Model):
+    def get_queryset(self):
+        return ProductQuerySet(self.model).filter(available=True)
+    def ENGYAHSHICHEGIRMA(self):
+        return self.get_queryset.ENGYAHSHICHEGIRMA()
+    def YANGIMAHSULOTLAR(self):
+        return self.get_queryset.YANGIMAHSULOTLAR()
+    def KUNNINGMAHSULOTI(self):
+        return self.get_queryset.KUNNINGMAHSULOTI()
 CHEGIRMA= ( 
     ("5", "5"), 
     ("7", "7"), 
@@ -24,8 +39,11 @@ CHEGIRMA= (
     ("50","50"),
 )
 class Product(models.Model):
-    producttype=models.ForeignKey(ProductType,on_delete=models.CASCADE)
-    category = models.ForeignKey(Category, on_delete=models.CASCADE, null=True)
+    class Tur(models.TextChoices):
+        ENGYAHSHICHEGIRMA='ENG', 'Engyaxshi Chegirmalar'
+        YANGIMAHSULOTLAR='YNM','Sara Tavarlar'
+        KUNNINGMAHSULOTI='KUN','So\'ngi va o\'rtacha maxsulotlar'
+    category = models.ForeignKey(Category, on_delete=models.CASCADE)
     name = models.CharField(max_length=200)
     slug = models.SlugField(max_length=200)
     image = models.FileField(upload_to='products/%Y/%m/%d',blank=True)
@@ -37,8 +55,12 @@ class Product(models.Model):
     available = models.BooleanField(default=True)
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
+    tur=models.CharField(max_length=50, choices=Tur.choices, default=Tur.ENGYAHSHICHEGIRMA)
     chegirma = models.CharField( max_length = 20, choices = CHEGIRMA, default = '5') 
+    objects = ProductQuerySet.as_manager()
+    available_active=ProductManager()
     class Meta:
+
         ordering = ['name']
         indexes = [
             models.Index(fields=['id', 'slug']),
@@ -59,7 +81,12 @@ class Product(models.Model):
             self.slug=slug
         super().save(*args, **kwargs)
     def get_absolute_url(self):
-        return reverse("product:Productdatile", args=[self.slug])
+        return reverse("product:product_detail", args=[ self.id,
+                                                        self.slug])
+    
+    def ayerma(self):
+        return (self.old_price-self.price)
+    
 
 class ProductCollor(models.Model):
     product=models.ForeignKey(Product, on_delete=models.CASCADE)

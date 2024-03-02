@@ -18,7 +18,7 @@ class SetPasswordForm(SetPasswordForm):
   
 class UserCreateForm(forms.ModelForm):
     password = forms.CharField(widget=forms.PasswordInput(
-        attrs={'class': 'form-control', 'placeholder': 'Username or Email'}),
+        attrs={'class': 'form-control', 'placeholder': 'Username or Email, '}),
         label="Username or Email*")
     password2 = forms.CharField(widget=forms.PasswordInput(
         attrs={'class': 'form-control', 'placeholder': 'Username or Email'}),
@@ -34,8 +34,8 @@ class UserCreateForm(forms.ModelForm):
         return cd['password2']
     
 class UserLogin(forms.Form):
-    email=forms.EmailField(max_length=250, widget=forms.EmailInput(attrs={'class': 'form-control'}), label="Username or Email")
-    password=forms.CharField(max_length=15, widget=forms.PasswordInput(attrs={'class': 'form-control'}), label="Parol")
+    email=forms.CharField(max_length=250, widget=forms.TextInput(attrs={'class': 'form-control'}), label="Username or Email", required="")
+    password=forms.CharField(max_length=15, widget=forms.PasswordInput(attrs={'class': 'form-control'}), label="Parol", required="")
     # captcha = ReCaptchaField(widget=ReCaptchaV2Checkbox) 
 
 class UserEditForm(forms.ModelForm):

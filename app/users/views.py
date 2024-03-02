@@ -54,9 +54,9 @@ def LogoutPage(request):
         
     return render(request, 'login/logout.html', {})
 
-
-def profile(request, id):
-    return render(request, "profil.html", {})
+@login_required(login_url="users:login")
+def profile(request):
+    return render(request, "login/profil.html", {})
 
 @login_required
 def edit(request):

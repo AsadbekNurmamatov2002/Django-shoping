@@ -1,81 +1,223 @@
 {% load static %}
-<div class="top_nav">
-    <div class="container top_nav_container">
-      <div class="top_nav_wrapper">
-        <p class="tap_nav_p">
-           bepul tezkor yetkazib berish - 50% chegirma!
-        </p>
-        <a href="#" class="top_nav_link">HOZIR SOTIB OLING</a>
-      </div>
+<header>
+  <!-- TOP HEADER -->
+  <div id="top-header">
+    <div class="container">
+      <ul class="header-links pull-left">
+        <li><a href="#"><i class="fa fa-phone"></i> +021-95-51-84</a></li>
+        <li><a href="#"><i class="fa fa-envelope-o"></i> email@email.com</a></li>
+        <li><a href="#"><i class="fa fa-map-marker"></i> 1734 Stonecoal Road</a></li>
+      </ul>
+      <ul class="header-links pull-right">
+        <li><a href="#"><i class="fa fa-dollar"></i> USD</a></li>
+        <li><a href= "{% url 'users:profile' %}"><i class="fa fa-user-o"></i> My Account</a></li>
+      </ul>
     </div>
   </div>
-  <nav class="nav">
-    <div class="container nav_container">
-      <a href="#" class="nav_logo">EXCLUSIVE</a>
-      <ul class="nav_list">
-        <li class="nav_item"><a href="/" class="nav_link">Home</a></li>
-        <li class="nav_item"><a href="#" class="nav_link">About</a></li>
-        <li class="nav_item"><a href="#" class="nav_link">Contact</a></li>
-        <li class="nav_item">
-          <a href="/sign-up.html" class="nav_link">Sign up</a>
-        </li>
+  <!-- /TOP HEADER -->
+
+  <!-- MAIN HEADER -->
+  <div id="header">
+    <!-- container -->
+    <div class="container">
+      <!-- row -->
+      <div class="row">
+        <!-- LOGO -->
+        <div class="col-md-3">
+          <div class="header-logo">
+            <a href="#" class="logo">
+              <img src="./img/logo.png" alt="">
+            </a>
+          </div>
+        </div>
+        <!-- /LOGO -->
+
+        <!-- SEARCH BAR -->
+        <div class="col-md-6">
+          <div class="header-search">
+            <form action="" method="GET" >
+              <select class="input-select">
+                
+                <option >Barcha Toifalar</option>
+                {% for cate in category %}
+                <a href="{{ cate.get_absolute_url }}"><option >{{ cate.name }}</option></a>
+                {% endfor %}
+              </select>
+              <input name="q" class="input" placeholder="Bu yerdan qidiring">
+              <button type="submit" class="search-btn">Qidirish</button>
+            </form>
+          </div>
+        </div>
+        <!-- /SEARCH BAR -->
+
+        <!-- ACCOUNT -->
+        <div class="col-md-3 clearfix">
+          <div class="header-ctn">
+            <!-- Wishlist -->
+            
+            <!-- /Wishlist -->
+
+            <!-- Cart -->
+            <div class="dropdown">
+              <a class="dropdown-toggle" data-toggle="dropdown" aria-expanded="true">
+                <i class="fa fa-shopping-cart"></i>
+                <span>Your Cart</span>
+                {% with total_items=cart|length %}
+                {% if total_items > 0 %}
+                <div class="qty">{{total_items}}</div>
+                {% endif %}
+                 {% endwith %}
+              </a>
+              <div class="cart-dropdown">
+                <div class="cart-list">
+                  {% for item in cart %}
+                  {% with product=item.product %}
+                  <div class="product-widget">
+                    <div class="product-img">
+                      <img src="{{product.image.url}}" alt="">
+                    </div>
+                    <div class="product-body">
+                      <h3 class="product-name"><a href="{{ product.get_absolute_url}}">{{product.name}}</a></h3>
+                      <h4 class="product-price"><span class="qty">{{item.quantity }}x</span>{{product.price}} ming So'm</h4>
+                    </div>
+                    <form action="{% url 'cart:cart_remove' product.id %}" method="post">
+                      {% csrf_token %}
+                      <button type="submit" class="delete"><i class="fa fa-close"></i></button>
+                    </form>
+                  </div>
+                  {% endwith %}
+                  {% endfor %}
+                </div>
+                <div class="cart-summary">
+                  <small>3 Item(s) selected</small>
+                  <h5>Jami:{{ cart.get_total_price }} ming So'm</h5>
+                </div>
+                <div class="cart-btns">
+                  {% if  request.path != "/cart/savat/" %}
+                  <a href="{% url 'cart:cart_detail' %}">              
+                        Savatni ko'rish
+                  </a>
+                  {% else %}
+                  <a href="{% url 'product:product_list' %}">
+                    Bosh Sahifa
+                 </a>
+                  {% endif %}
+                  {% if  request.path != "/orders/create/" %}
+                  <a href="{% url 'orders:order_create' %}">Buyurtma<i class="fa fa-arrow-circle-right"></i></a>
+                  {% else %}
+                  <a href="{% url 'product:product_list' %}">
+
+                    Bosh Sahifa
+                    <i class="fa fa-arrow-circle-right"></i>
+                 </a>
+                  {% endif %}
+                </div>
+              </div>
+            </div>
+            <!-- /Cart -->
+
+            <!-- Menu Toogle -->
+            <div class="menu-toggle">
+              <a href="#">
+                <i class="fa fa-bars"></i>
+                <span>Menu</span>
+              </a>
+            </div>
+            <!-- /Menu Toogle -->
+          </div>
+        </div>
+        <!-- /ACCOUNT -->
+      </div>
+      <!-- row -->
+    </div>
+    <!-- container -->
+  </div>
+  <!-- /MAIN HEADER -->
+</header>
+<!-- /HEADER -->
+
+<!-- NAVIGATION -->
+<nav id="navigation">
+  <!-- container -->
+  <div class="container">
+    <!-- Menu Toogle -->
+    <div class="menu-toggle">
+      <a href="#">
+        <i class="fa fa-bars"></i>
+        <span>Menu</span>
+      </a>
+    </div>
+    <!-- /Menu Toogle -->
+    <!-- responsive-nav -->
+    <div id="responsive-nav">
+      <!-- NAV -->
+      <ul class="main-nav nav navbar-nav">
+        <li class="active"><a href="#">Home</a></li>
+        <li><a href="#">Hot Deals</a></li>
+        <li><a href="#">Categories</a></li>
+        <li><a href="#">Laptops</a></li>
+        <li><a href="#">Smartphones</a></li>
+        <li><a href="#">Cameras</a></li>
+        <li><a href="#">Accessories</a></li>
       </ul>
-      <div class="nav_items">
-        <form action="#" class="nav_form">
-          <input
-            type="text"
-            class="nav_input"
-            placeholder="search here...." />
-          <img src="{% static './image/search.png' %}" alt="" class="nav_search" />
-        </form>
-        <img src="{% static './image/heart.png' %}" alt="" class="nav_heart" />
-        <a href="{% url 'cart:cart_detail' %}">
-          <img src="{% static './image/cart.png' %}" alt="" class="nav_cart" />
-        </a>
-      </div>
-      <span class="hamburger">
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          fill="none"
-          viewBox="0 0 24 24"
-          stroke-width="1.5"
-          stroke="currentColor"
-          class="w-6 h-6">
-          <path
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
-        </svg>
-      </span>
+      <!-- /NAV -->
     </div>
-  </nav>
-  <nav class="mobile_nav mobile_nav_hide">
-    <ul class="mobile_nav_list">
-      <li class="mobile_nav_item">
-        <a href="/" class="mobile_nav_link">Home</a>
-      </li>
-      <li class="mobile_nav_item">
-        <a href="#" class="mobile_nav_link">About</a>
-      </li>
-      <li class="mobile_nav_item">
-        <a href="#" class="mobile_nav_link">Contact</a>
-      </li>
-      <li class="mobile_nav_item">
-        <a href="{% url 'cart:cart_detail' %}" class="mobile_nav_link">Sign Up</a>
-      </li>
-      <li class="mobile_nav_item">
-        <a href="{% url 'cart:cart_detail' %}" class="mobile_nav_link">Cart</a>
-      </li>
-    </ul>
-  </nav>
-  <header class="header">
-    <div class="container header_container">
-      <div class="header_filter">
-        <a href="{% url 'product:product_list' %}" class="header_filter_link">All</a>
-        {%for cate in category %}
-        <a href="{{categories.get_absolute_url}}" class="header_filter_link">{{cate.name}}</a>
-        {%endfor%}
+    <!-- /responsive-nav -->
+  </div>
+  <!-- /container -->
+</nav>
+<!-- /NAVIGATION -->
+
+<!-- SECTION -->
+<div class="section">
+  <!-- container -->
+  <div class="container">
+    <!-- row -->
+    <div class="row">
+      <!-- shop -->
+      <div class="col-md-4 col-xs-6">
+        <div class="shop">
+          <div class="shop-img">
+            <img src="./img/shop01.png" alt="">
+          </div>
+          <div class="shop-body">
+            <h3>Laptop<br>Collection</h3>
+            <a href="#" class="cta-btn">Shop now <i class="fa fa-arrow-circle-right"></i></a>
+          </div>
+        </div>
       </div>
-      <img src="{% static './image/header.png' %}" alt="" class="header_img" />
+      <!-- /shop -->
+
+      <!-- shop -->
+      <div class="col-md-4 col-xs-6">
+        <div class="shop">
+          <div class="shop-img">
+            <img src="./img/shop03.png" alt="">
+          </div>
+          <div class="shop-body">
+            <h3>Accessories<br>Collection</h3>
+            <a href="#" class="cta-btn">Shop now <i class="fa fa-arrow-circle-right"></i></a>
+          </div>
+        </div>
+      </div>
+      <!-- /shop -->
+
+      <!-- shop -->
+      <div class="col-md-4 col-xs-6">
+        <div class="shop">
+          <div class="shop-img">
+            <img src="./img/shop02.png" alt="">
+          </div>
+          <div class="shop-body">
+            <h3>Cameras<br>Collection</h3>
+            <a href="#" class="cta-btn">Shop now <i class="fa fa-arrow-circle-right"></i></a>
+          </div>
+        </div>
+      </div>
+      <!-- /shop -->
     </div>
-  </header>
+    <!-- /row -->
+  </div>
+  <!-- /container -->
+</div>
+<!-- /SECTION -->

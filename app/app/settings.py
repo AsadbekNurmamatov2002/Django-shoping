@@ -1,4 +1,4 @@
-import os
+import os, mimetypes
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -38,7 +38,28 @@ INSTALLED_APPS = [
 
     'django_recaptcha',
 
+    'debug_toolbar',
+
 ]
+
+
+REDIS_HOST = 'localhost'
+REDIS_PORT = 6379
+REDIS_DB = 0
+# chache 
+CACHES = {
+    "default": {
+        "BACKEND": "django.core.cache.backends.filebased.FileBasedCache",
+        "LOCATION": os.path.join(BASE_DIR.parent, 'cache'),
+    }
+}
+
+INTERNAL_IPS = [
+ '127.0.0.1',
+] 
+if DEBUG:
+   mimetypes.add_type('application/javascript', '.js', True)
+   mimetypes.add_type('text/css', '.css', True)
 
 AUTH_USER_MODEL='users.User'
 CART_SESSION_ID='cart'

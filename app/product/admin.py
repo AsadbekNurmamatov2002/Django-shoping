@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Product, ProductType, ProductCollor, Size, Rasimlar
+from .models import Product, ProductCollor, Size, Rasimlar
 
 class ProductRasimlar(admin.TabularInline):
     model = Rasimlar
@@ -11,11 +11,6 @@ class ProductAdmin(admin.ModelAdmin):
     list_editable = ['price', 'available']
     prepopulated_fields = {'slug': ('name',)}
     inlines = [ProductRasimlar]
-
-@admin.register(ProductType)
-class ProductTypeAdmin(admin.ModelAdmin):
-    list_display = ['name']
-
 
 @admin.register(ProductCollor)
 class ProductColloradmin(admin.ModelAdmin):
