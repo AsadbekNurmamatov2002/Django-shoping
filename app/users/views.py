@@ -54,7 +54,7 @@ def LogoutPage(request):
         
     return render(request, 'login/logout.html', {})
 
-@login_required(login_url="users:login")
+@login_required(login_url="users:sigin")
 def profile(request):
     return render(request, "login/profil.html", {})
 

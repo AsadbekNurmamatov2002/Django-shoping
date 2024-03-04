@@ -61,7 +61,7 @@
             <div class="dropdown">
               <a class="dropdown-toggle" data-toggle="dropdown" aria-expanded="true">
                 <i class="fa fa-shopping-cart"></i>
-                <span>Your Cart</span>
+                {% comment %} <span>Your Cart</span> {% endcomment %}
                 {% with total_items=cart|length %}
                 {% if total_items > 0 %}
                 <div class="qty">{{total_items}}</div>
@@ -120,7 +120,7 @@
             <div class="menu-toggle">
               <a href="#">
                 <i class="fa fa-bars"></i>
-                <span>Menu</span>
+                {% comment %} <span>Menu</span> {% endcomment %}
               </a>
             </div>
             <!-- /Menu Toogle -->
@@ -140,18 +140,12 @@
 <nav id="navigation">
   <!-- container -->
   <div class="container">
-    <!-- Menu Toogle -->
-    <div class="menu-toggle">
-      <a href="#">
-        <i class="fa fa-bars"></i>
-        <span>Menu</span>
-      </a>
-    </div>
-    <!-- /Menu Toogle -->
     <!-- responsive-nav -->
     <div id="responsive-nav">
       <!-- NAV -->
       <ul class="main-nav nav navbar-nav">
+         <!-- Menu Toogle -->
+    <!-- /Menu Toogle -->
         <li class="active"><a href="#">Home</a></li>
         <li><a href="#">Hot Deals</a></li>
         <li><a href="#">Categories</a></li>
